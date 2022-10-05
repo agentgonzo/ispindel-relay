@@ -1,0 +1,10 @@
+{
+  "name": "ispindel-relay",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "concurrently \"PORT=3001 yarn --cwd server dev\" \"yarn --cwd client start\""
+  },
+  "devDependencies": {
+    "concurrently": "^7.4.0"
+  }
+}

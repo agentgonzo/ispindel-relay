@@ -1,0 +1,33 @@
+.App {
+  margin: 1rem;
+}
+
+.circle {
+  width: 10px;
+  height: 10px;
+  background-color: green;
+  border-radius: 50%;
+}
+
+/*.accordion-header {*/
+/*  background: green !important;*/
+/*  background-color: green  !important;*/
+/*  color: green !important;*/
+/*}*/
+
+/*.accordion.header {*/
+/*  --bs-accordion-color: orange !important;*/
+/*  --bs-accordion-bg: green !important;*/
+/*}*/
+
+/*.accordion-button {*/
+/*  background-color: orange !important;*/
+/*}*/
+
+/*.accordion-button:focus {*/
+/*  box-shadow: none;*/
+/*}*/
+
+/*.accordion-button:not(.collapsed) {*/
+/*  color: orange;*/
+/*}*/
