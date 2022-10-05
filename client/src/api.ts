@@ -6,17 +6,16 @@ const useFetch = (url: string, interval?: number) => {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState(null)
 
-  const fetch = async () => {
-    const resp = await axios.get(url)
-    const data = await resp?.data
-
-    setData(data)
-    setLoading(false)
-  }
-
   useEffect(() => {
-    let _interval: any = null;
+    const fetch = async () => {
+      const resp = await axios.get(url)
+      const data = await resp?.data
 
+      setData(data)
+      setLoading(false)
+    }
+
+    let _interval: any = null;
     (async () => {
       try {
         if (interval) {
@@ -47,10 +46,7 @@ export const useServices = () => {
 }
 
 export const updateServices = async (services: IService[]) => {
-  const resp = await axios.post('/api/services', services)
-  const data = await resp?.data
-
-  console.log(`Updated: ${data}`)
+  await axios.post('/api/services', services)
 }
 
 ////////////////////////////
