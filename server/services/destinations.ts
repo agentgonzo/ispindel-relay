@@ -1,23 +1,44 @@
 interface IDestination {
-  type: 'HTTP' | 'InfluxDB'
-  url: string
+  type: 'HTTP' | 'InfluxDB' | 'Ubidots'
   error?: string
 }
 
-let _destinations: IDestination[] = [
+interface IHttpDestination extends IDestination {
+  host: string
+  port: string
+  path: string
+  token?: string
+}
+
+interface IInfluxDBDestination extends IDestination {
+  hostname: string
+  port: string
+  database: string
+}
+
+interface IUbidotsDestination extends IDestination {
+  token: string
+}
+
+let _destinations = [
   {
     type: 'HTTP',
-    url: 'https://foo.bar'
-  },
+    host: 'example.com',
+    port: '80',
+    path: '/api',
+    token: '',
+  } as IHttpDestination,
   {
     type: 'InfluxDB',
-    url: 'whatever',
+    hostname: 'example.com',
+    port: '8443',
+    database: 'mydb',
     error: "this is my error message",
-  }
-]
+  } as IInfluxDBDestination
+] as IDestination[]
 // TODO. Load this from disk
 
-export const getDestinations = () => {
+export const getDestinations = (): IDestination[] => {
   return _destinations
 }
 

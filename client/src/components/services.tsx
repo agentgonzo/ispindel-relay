@@ -4,9 +4,14 @@ import {Accordion, Alert, Button, Col, Form, Row} from 'react-bootstrap'
 import * as Icon from 'react-bootstrap-icons';
 import {updateServices} from '../api'
 
-export interface IService {
-  type: string
-  url: string
+enum ServiceType {
+  HTTP = 'HTTP',
+  InfluxDB = 'InfluxDB',
+  Ubidots = 'Ubidots',
+}
+
+export interface IService extends Object {
+  type: ServiceType
   error?: string
 }
 
@@ -19,9 +24,12 @@ export const ServicesConfiguration: FC<{ initialServices: IService[] }> = ({init
   const [saveEnabled, setSaveEnabled] = useState(false)
 
   const onSubmit = (services: IService[]) => {
-    updateServices(services).then(() => {
-    })
+    // Remove error objects
+    services.forEach(service => {delete service.error})
+    updateServices(services).then(() => {})
   }
+
+  const destination = (service: any) => (service.host || service.hostname || service.token)
 
   return (
     <>
@@ -31,7 +39,7 @@ export const ServicesConfiguration: FC<{ initialServices: IService[] }> = ({init
             <Accordion.Item eventKey={service.key} key={service.key}>
               <Accordion.Header>
                 <div className="w-100 d-flex justify-content-between">
-                  {service.type} → {service.url}
+                  {service.type} → {destination(service)}
                   {service.error &&
                     <div style={{marginRight: '1rem'}}>
                       <Icon.ExclamationCircle color="red"/>
@@ -48,6 +56,7 @@ export const ServicesConfiguration: FC<{ initialServices: IService[] }> = ({init
                   }}
                   onRemove={(service) => {
                     setServices(services.filter(s => s !== service))
+                    setSaveEnabled((document.getElementById('form-parent') as HTMLInputElement).checkValidity())
                   }}
                 />
               </Accordion.Body>
@@ -62,7 +71,7 @@ export const ServicesConfiguration: FC<{ initialServices: IService[] }> = ({init
         <Button
           variant="outline-primary"
           onClick={() => {
-            setServices([...services, {type: "HTTP", key: Math.random().toString()} as IServiceWithKey])
+            setServices([...services, {type: ServiceType.HTTP, key: Math.random().toString()} as IServiceWithKey])
           }}>
           Add Service
         </Button>
@@ -88,7 +97,7 @@ interface IServiceFromProps {
 const ServicesForm: FC<IServiceFromProps> = ({service, onChange, onRemove}): ReactElement => {
   const handleChange = (event: React.ChangeEvent<HTMLElement>) => {
     // @ts-ignore
-    service[event.target.name] = event.target.value
+    service[event.target.name.toLowerCase()] = event.target.value
     onChange(service)
   }
 
@@ -103,14 +112,12 @@ const ServicesForm: FC<IServiceFromProps> = ({service, onChange, onRemove}): Rea
       </Form.Label>
       <Col>
         <Form.Select name="type" defaultValue={service.type} onChange={handleChange}>
-          <option value="HTTP">HTTP</option>
-          <option value="InfluxDB">InfluxDB</option>
-          <option value="Another">Another</option>
+          {Object.values(ServiceType).map(service => (<option key={service} value={service}>{service}</option>))}
         </Form.Select>
       </Col>
     </Form.Group>
 
-    <ServiceFieldForm fieldName='url' defaultValue={service.url} onChange={handleChange}/>
+    <FormsForService service={service} onChange={handleChange}/>
 
     <div className="d-flex justify-content-between">
       <Button variant="danger" onClick={() => {
@@ -123,6 +130,27 @@ const ServicesForm: FC<IServiceFromProps> = ({service, onChange, onRemove}): Rea
   </>
 }
 
+
+interface IFormsForServiceProps {
+  service: IServiceWithKey
+  onChange: any
+}
+
+const FormsForService: FC<IFormsForServiceProps> = ({service, onChange}) => {
+  // Probably change this from a dumb array of strings to an array of objects, with name, displayName, type and feedback (validation)
+  const fieldsForType = {
+    [ServiceType.HTTP]: ['Host', 'Port', 'Path', 'Token'],
+    [ServiceType.InfluxDB]: ['Hostname', 'Port', 'Database'],
+    [ServiceType.Ubidots]: ['Token'],
+  }
+
+  const fields = fieldsForType[service.type]
+
+  return <>
+    {fields.map(field => (<ServiceFieldForm key={service.key + field} fieldName={field} defaultValue={(service as any)[field.toLowerCase()]} onChange={onChange}/>))}
+  </>
+}
+
 interface IServiceFieldFormProps {
   fieldName: string
   defaultValue: string
@@ -131,12 +159,9 @@ interface IServiceFieldFormProps {
 
 const ServiceFieldForm: FC<IServiceFieldFormProps> = ({fieldName, defaultValue, onChange}) => (
   <Form.Group as={Row} className="mb-3" controlId="formUrl">
-    <Form.Label column sm="2">
-      URL
-    </Form.Label>
+    <Form.Label column sm="2">{fieldName}</Form.Label>
     <Col sm="10">
-      <Form.Control name={fieldName} placeholder="https://example.com" defaultValue={defaultValue} required onChange={onChange}/>
-      <Form.Control.Feedback type="invalid">This is the URL that data will be forwarded to</Form.Control.Feedback>
+      <Form.Control name={fieldName} defaultValue={defaultValue} required onChange={onChange}/>
     </Col>
   </Form.Group>
 )
