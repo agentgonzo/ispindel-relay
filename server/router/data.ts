@@ -16,3 +16,11 @@ dataRouter.get('/', (req: Request, res: Response) => {
 
   // res.send({})
 })
+
+const testData = {
+  gravity: 1.050,
+  temperature: 25,
+  battery: 3.5,
+  tilt: 45,
+  period: 1800,
+}

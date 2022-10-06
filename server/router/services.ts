@@ -13,3 +13,8 @@ servicesRouter.post('/', (req: Request, res: Response) => {
   setDestinations(req.body)
   res.send(getDestinations())
 })
+
+servicesRouter.post('/test', (req: Request, res: Response) => {
+  console.log(`received test data ${JSON.stringify(req.body, null, 2)}`)
+  res.sendStatus(200)
+})

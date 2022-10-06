@@ -3,8 +3,9 @@ import {FC, ReactElement, useState} from 'react'
 import {Accordion, Alert, Button, Col, Form, Row} from 'react-bootstrap'
 import * as Icon from 'react-bootstrap-icons';
 import {updateServices} from '../api'
+import {TestServiceModal} from './TestServiceModal'
 
-enum ServiceType {
+export enum ServiceType {
   HTTP = 'HTTP',
   InfluxDB = 'InfluxDB',
   Ubidots = 'Ubidots',
@@ -95,6 +96,8 @@ interface IServiceFromProps {
 }
 
 const ServicesForm: FC<IServiceFromProps> = ({service, onChange, onRemove}): ReactElement => {
+  const [showModal, setShowModal] = useState(false)
+
   const handleChange = (event: React.ChangeEvent<HTMLElement>) => {
     // @ts-ignore
     service[event.target.name.toLowerCase()] = event.target.value
@@ -105,6 +108,7 @@ const ServicesForm: FC<IServiceFromProps> = ({service, onChange, onRemove}): Rea
     <Alert variant="danger">The last delivery to this service failed: {service.error}</Alert>
 
   return <>
+    <TestServiceModal service={service} show={showModal} handleClose={() => {setShowModal(false)}}/>
     <Form.Group as={Row} className="mb-3" controlId="formType">
       {error}
       <Form.Label column sm="2">
@@ -124,7 +128,7 @@ const ServicesForm: FC<IServiceFromProps> = ({service, onChange, onRemove}): Rea
         onRemove(service)
       }}>Delete</Button>
       <Button variant="outline-primary" onClick={() => {
-        alert("TODO: Open a modal to test the endpoint")
+        setShowModal(true)
       }}>Test</Button>
     </div>
   </>

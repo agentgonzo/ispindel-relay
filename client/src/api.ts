@@ -1,17 +1,16 @@
 import {useEffect, useState} from 'react'
-import axios from 'axios'
+import axios, {AxiosRequestConfig} from 'axios'
 import {IService} from './components/services'
 
-const useFetch = (url: string, interval?: number) => {
+const useFetch = (config: AxiosRequestConfig, interval?: number) => {
   const [loading, setLoading] = useState(true)
-  const [data, setData] = useState(null)
+  const [responseData, setResponseData] = useState(null)
 
   useEffect(() => {
     const fetch = async () => {
-      const resp = await axios.get(url)
-      const data = await resp?.data
+      const resp = await axios(config)
 
-      setData(data)
+      setResponseData(resp?.data)
       setLoading(false)
     }
 
@@ -32,21 +31,29 @@ const useFetch = (url: string, interval?: number) => {
       }
     })()
 
-  }, [url, interval])
+  }, [config, interval])
 
-  return {loading, data}
+  return {loading, data: responseData}
 }
 
 
 /////////////////////////////
 // Services
 export const useServices = () => {
-  const {data} = useFetch('/api/services')
+  const {data} = useFetch({url: '/api/services'})
   return data as IService[]
 }
 
 export const updateServices = async (services: IService[]) => {
   await axios.post('/api/services', services)
+}
+
+export const useTestService = (service: IService) => {
+  return useFetch({
+    method: 'POST',
+    url: '/api/service/test',
+    data: service,
+  })
 }
 
 ////////////////////////////
@@ -61,5 +68,5 @@ export interface ISpindelData {
 }
 
 export const useData = () => {
-  return useFetch('/api/data', 5000)
+  return useFetch({url: '/api/data'}, 5000)
 }
