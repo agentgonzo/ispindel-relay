@@ -1,5 +1,6 @@
 import {Request, Response, Router} from 'express'
-import {getDestinations, setDestinations} from '../services/destinations'
+import {getDestinations, IDestination, setDestinations} from '../services/destinations'
+import {testDestinations} from '../services/destinations/foo'
 
 export const servicesRouter = Router()
 
@@ -14,7 +15,8 @@ servicesRouter.post('/', (req: Request, res: Response) => {
   res.send(getDestinations())
 })
 
-servicesRouter.post('/test', (req: Request, res: Response) => {
+servicesRouter.post('/test', async (req: Request, res: Response) => {
   console.log(`received test data ${JSON.stringify(req.body, null, 2)}`)
+  await testDestinations(req.body as IDestination)
   res.sendStatus(200)
 })

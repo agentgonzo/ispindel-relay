@@ -1,13 +1,8 @@
-interface IDestination {
+import {IHttpDestination} from './destinations/http'
+
+export interface IDestination {
   type: 'HTTP' | 'InfluxDB' | 'Ubidots'
   error?: string
-}
-
-interface IHttpDestination extends IDestination {
-  host: string
-  port: string
-  path: string
-  token?: string
 }
 
 interface IInfluxDBDestination extends IDestination {
