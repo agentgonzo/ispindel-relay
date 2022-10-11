@@ -2,6 +2,11 @@
   "name": "ispindel-relay",
   "version": "1.0.0",
   "scripts": {
+    "add-types": "yarn add-types:client; yarn add-types:server",
+    "add-types:client": "yarn --cwd client add -D ../types",
+    "add-types:server": "yarn --cwd server add -D ../types",
+    "build": "yarn build:types; yarn add-types",
+    "build:types": "yarn --cwd types build",
     "start": "concurrently \"PORT=3001 yarn --cwd server dev\" \"yarn --cwd client start\""
   },
   "devDependencies": {

@@ -4,6 +4,7 @@ import {Accordion, Alert, Button, Col, Form, Row} from 'react-bootstrap'
 import * as Icon from 'react-bootstrap-icons';
 import {updateServices} from '../api'
 import {TestServiceModal} from './TestServiceModal'
+import {capitalise} from '../utils'
 
 export enum ServiceType {
   HTTP = 'HTTP',
@@ -26,8 +27,11 @@ export const ServicesConfiguration: FC<{ initialServices: IService[] }> = ({init
 
   const onSubmit = (services: IService[]) => {
     // Remove error objects
-    services.forEach(service => {delete service.error})
-    updateServices(services).then(() => {})
+    services.forEach(service => {
+      delete service.error
+    })
+    updateServices(services).then(() => {
+    })
   }
 
   const destination = (service: any) => (service.host || service.hostname || service.token)
@@ -108,7 +112,9 @@ const ServicesForm: FC<IServiceFromProps> = ({service, onChange, onRemove}): Rea
     <Alert variant="danger">The last delivery to this service failed: {service.error}</Alert>
 
   return <>
-    <TestServiceModal service={service} show={showModal} handleClose={() => {setShowModal(false)}}/>
+    <TestServiceModal service={service} show={showModal} handleClose={() => {
+      setShowModal(false)
+    }}/>
     <Form.Group as={Row} className="mb-3" controlId="formType">
       {error}
       <Form.Label column sm="2">
@@ -141,17 +147,36 @@ interface IFormsForServiceProps {
 }
 
 const FormsForService: FC<IFormsForServiceProps> = ({service, onChange}) => {
-  // Probably change this from a dumb array of strings to an array of objects, with name, displayName, type and feedback (validation)
   const fieldsForType = {
-    [ServiceType.HTTP]: ['Host', 'Port', 'Path', 'Token'],
-    [ServiceType.InfluxDB]: ['Hostname', 'Port', 'Database', 'Username', 'Password'],
-    [ServiceType.Ubidots]: ['Token'],
+    [ServiceType.HTTP]: {
+      host: {required: true},
+      port: {required: true, type: 'number'},
+      path: {required: true},
+      token: {required: false},
+    },
+    [ServiceType.InfluxDB]: {
+      hostname: {required: true},
+      port: {required: true, type: 'number'},
+      database: {required: true},
+      username: {required: false},
+      password: {required: false},
+    },
+    [ServiceType.Ubidots]: {
+      token: {required: true}
+    },
   }
 
   const fields = fieldsForType[service.type]
 
   return <>
-    {fields.map(field => (<ServiceFieldForm key={service.key + field} fieldName={field} defaultValue={(service as any)[field.toLowerCase()]} onChange={onChange}/>))}
+    {Object.entries(fields).map(([fieldName, attributes]) => (
+      <ServiceFieldForm
+        key={service.key + fieldName}
+        fieldName={capitalise(fieldName)}
+        defaultValue={(service as any)[(fieldName)]}
+        required={(attributes as any)?.required}
+        onChange={onChange}
+      />))}
   </>
 }
 
@@ -159,13 +184,15 @@ interface IServiceFieldFormProps {
   fieldName: string
   defaultValue: string
   onChange: any
+  required: boolean
 }
 
-const ServiceFieldForm: FC<IServiceFieldFormProps> = ({fieldName, defaultValue, onChange}) => (
-  <Form.Group as={Row} className="mb-3" controlId="formUrl">
+const ServiceFieldForm: FC<IServiceFieldFormProps> = ({fieldName, defaultValue, onChange, required}) => (
+  <Form.Group validated={false} as={Row} className="mb-3" controlId="formUrl">
     <Form.Label column sm="2">{fieldName}</Form.Label>
     <Col sm="10">
-      <Form.Control name={fieldName} defaultValue={defaultValue} required onChange={onChange}/>
+      <Form.Control name={fieldName} defaultValue={defaultValue} required={required} onChange={onChange}/>
+      <Form.Control.Feedback type="invalid">{fieldName} is a required field</Form.Control.Feedback>
     </Col>
   </Form.Group>
 )
