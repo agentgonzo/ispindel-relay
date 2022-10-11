@@ -9,11 +9,11 @@ export interface IFermentationData {
   temperature: number
   battery: number // volts
   lastUpdate: number
-  tilt: number
+  angle: number
   period: number
 }
 
-export const CurrentData: FC<IFermentationData> = ({gravity, temperature, battery, lastUpdate, tilt, period}): ReactElement => {
+export const CurrentData: FC<IFermentationData> = ({gravity, temperature, battery, lastUpdate, angle, period}): ReactElement => {
   const services = useServices()
 
   const originalGravity = 1.055 // TODO. Get this from the data
@@ -78,9 +78,9 @@ export const CurrentData: FC<IFermentationData> = ({gravity, temperature, batter
 
     <Form>
       <Form.Group as={Row} className="mb-3">
-        <Form.Label column>Tilt</Form.Label>
+        <Form.Label column>Tilt angle</Form.Label>
         <Col sm="10">
-          <Form.Control disabled value={tilt + '°'}/>
+          <Form.Control disabled value={angle + '°'}/>
         </Col>
       </Form.Group>
       <Form.Group as={Row} className="mb-3">

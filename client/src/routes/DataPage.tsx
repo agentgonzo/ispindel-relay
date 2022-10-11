@@ -15,7 +15,7 @@ function DataPage() {
           gravity={data.gravity}
           temperature={data.temperature}
           battery={data.battery}
-          tilt={data.tilt}
+          angle={data.angle}
           lastUpdate={data.lastUpdate}
           period={data.period}
         />}

@@ -30,7 +30,7 @@ export interface ISpindelData {
   gravity: number,
   temperature: number, // °C // TODO. Support the yanks
   battery: number, // Volts
-  tilt: number, // °
+  angle: number, // °
   period: number, // seconds?
   lastUpdate: number, // milli-seconds since epoch
 }

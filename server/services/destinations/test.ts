@@ -1,21 +1,14 @@
-import {IDestination, ServiceType} from '../destinations'
-import {IHttpDestination, send} from './http'
+import {sendHttp} from './http'
+import {testData} from '../../router/data'
+import {sendToInfluxDB} from './influxdb'
+import {IDestination, IHttpDestination, IInfluxDBDestination, ServiceType} from 'types'
 
 export const testDestinations = async (destination: IDestination) => {
-  // TODO
-  // for (const destination of destinations) {
-  //   if (destination.type == 'HTTP') { // TODO: Enum{
-  //     await send(destination as IHttpDestination)
-  //   } else {
-  //     console.log(`unknown: ${destination.type}`)
-  //   }
-  //
-  // }
-  console.log('============')
-  console.log(destination)
   switch (destination.type) {
     case ServiceType.HTTP:
-      return await send(destination as IHttpDestination)
+      return await sendHttp(destination as IHttpDestination, testData)
+    case ServiceType.InfluxDB:
+      return await sendToInfluxDB(destination as IInfluxDBDestination, testData)
     default:
       throw new Error(`unknown type: ${destination.type}`)
   }

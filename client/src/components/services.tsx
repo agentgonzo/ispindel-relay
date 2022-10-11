@@ -144,7 +144,7 @@ const FormsForService: FC<IFormsForServiceProps> = ({service, onChange}) => {
   // Probably change this from a dumb array of strings to an array of objects, with name, displayName, type and feedback (validation)
   const fieldsForType = {
     [ServiceType.HTTP]: ['Host', 'Port', 'Path', 'Token'],
-    [ServiceType.InfluxDB]: ['Hostname', 'Port', 'Database'],
+    [ServiceType.InfluxDB]: ['Hostname', 'Port', 'Database', 'Username', 'Password'],
     [ServiceType.Ubidots]: ['Token'],
   }
 

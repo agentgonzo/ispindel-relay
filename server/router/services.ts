@@ -1,6 +1,7 @@
 import {NextFunction, Request, Response, Router} from 'express'
-import {getDestinations, IDestination, setDestinations} from '../services/destinations'
+import {getDestinations, setDestinations} from '../services/destinations'
 import {testDestinations} from '../services/destinations/test'
+import {IDestination} from 'types'
 
 export const servicesRouter = Router()
 

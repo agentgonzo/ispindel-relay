@@ -1,26 +1,4 @@
-import {IHttpDestination} from './destinations/http'
-
-// TODO move API objects over to a common package
-export enum ServiceType {
-  HTTP = 'HTTP',
-  InfluxDB = 'InfluxDB',
-  Ubidots = 'Ubidots',
-}
-
-export interface IDestination {
-  type: ServiceType
-  error?: string
-}
-
-interface IInfluxDBDestination extends IDestination {
-  hostname: string
-  port: string
-  database: string
-}
-
-interface IUbidotsDestination extends IDestination {
-  token: string
-}
+import {IDestination, IHttpDestination, IInfluxDBDestination} from 'types'
 
 let _destinations = [
   {
