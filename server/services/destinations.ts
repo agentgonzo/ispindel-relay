@@ -1,7 +1,14 @@
 import {IHttpDestination} from './destinations/http'
 
+// TODO move API objects over to a common package
+export enum ServiceType {
+  HTTP = 'HTTP',
+  InfluxDB = 'InfluxDB',
+  Ubidots = 'Ubidots',
+}
+
 export interface IDestination {
-  type: 'HTTP' | 'InfluxDB' | 'Ubidots'
+  type: ServiceType
   error?: string
 }
 

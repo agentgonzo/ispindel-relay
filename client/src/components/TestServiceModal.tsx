@@ -27,7 +27,7 @@ export const TestServiceModal: FC<IProps> = ({service, show, handleClose}): Reac
     } catch (err) {
       setDone(true)
       setEnableTestButton(true)
-      setError(err.message)
+      setError(JSON.stringify(err.response.data.error))
     }
   }
 

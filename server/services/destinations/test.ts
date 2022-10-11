@@ -1,4 +1,4 @@
-import {IDestination} from '../destinations'
+import {IDestination, ServiceType} from '../destinations'
 import {IHttpDestination, send} from './http'
 
 export const testDestinations = async (destination: IDestination) => {
@@ -13,10 +13,10 @@ export const testDestinations = async (destination: IDestination) => {
   // }
   console.log('============')
   console.log(destination)
-  if (destination.type == 'HTTP') { // TODO: Enum{
-    return await send(destination as IHttpDestination)
-  } else {
-    console.log(`unknown: ${destination.type}`)
+  switch (destination.type) {
+    case ServiceType.HTTP:
+      return await send(destination as IHttpDestination)
+    default:
+      throw new Error(`unknown type: ${destination.type}`)
   }
-
 }

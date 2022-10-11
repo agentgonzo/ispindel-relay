@@ -1,6 +1,6 @@
-import {Request, Response, Router} from 'express'
+import {NextFunction, Request, Response, Router} from 'express'
 import {getDestinations, IDestination, setDestinations} from '../services/destinations'
-import {testDestinations} from '../services/destinations/foo'
+import {testDestinations} from '../services/destinations/test'
 
 export const servicesRouter = Router()
 
@@ -15,8 +15,12 @@ servicesRouter.post('/', (req: Request, res: Response) => {
   res.send(getDestinations())
 })
 
-servicesRouter.post('/test', async (req: Request, res: Response) => {
-  console.log(`received test data ${JSON.stringify(req.body, null, 2)}`)
-  await testDestinations(req.body as IDestination)
-  res.sendStatus(200)
+servicesRouter.post('/test', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    console.log(`received test data ${JSON.stringify(req.body, null, 2)}`)
+    await testDestinations(req.body as IDestination)
+    res.sendStatus(200)
+  } catch (error) {
+    next(error)
+  }
 })

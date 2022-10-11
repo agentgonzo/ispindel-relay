@@ -10,6 +10,7 @@ export interface IHttpDestination extends IDestination {
 }
 
 export const send = async (destination: IHttpDestination) => {
+
   const url = `${destination.host}:${destination.port}${destination.path}`
   console.log(url)
   const resp = await axios.post(url, testData)

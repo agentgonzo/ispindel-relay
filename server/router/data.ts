@@ -22,9 +22,11 @@ dataRouter.post('/', (req: Request, res: Response) => {
 })
 
 export const testData = {
+  name: 'iSpindel01',
   gravity: 1.050,
   temperature: 25,
+  temp_units: 'C',
   battery: 3.5,
-  tilt: 45,
+  angle: 45,
   period: 1800,
 }
