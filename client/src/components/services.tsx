@@ -186,7 +186,7 @@ interface IServiceFieldFormProps {
 }
 
 const ServiceFieldForm: FC<IServiceFieldFormProps> = ({fieldName, defaultValue, onChange, required}) => (
-  <Form.Group validated={false} as={Row} className="mb-3" controlId="formUrl">
+  <Form.Group as={Row} className="mb-3" controlId="formUrl">
     <Form.Label column sm="2">{fieldName}</Form.Label>
     <Col sm="10">
       <Form.Control name={fieldName} defaultValue={defaultValue} required={required} onChange={onChange}/>
