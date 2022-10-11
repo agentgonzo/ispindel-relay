@@ -37,8 +37,6 @@ export interface IInfluxDBDestination extends IDestination {
 }
 
 export interface IHttpDestination extends IDestination {
-  host: string
-  port: string
-  path: string
+  url: string
   token?: string
 }

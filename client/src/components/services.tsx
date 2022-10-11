@@ -149,9 +149,7 @@ interface IFormsForServiceProps {
 const FormsForService: FC<IFormsForServiceProps> = ({service, onChange}) => {
   const fieldsForType = {
     [ServiceType.HTTP]: {
-      host: {required: true},
-      port: {required: true, type: 'number'},
-      path: {required: true},
+      url: {required: true},
       token: {required: false},
     },
     [ServiceType.InfluxDB]: {

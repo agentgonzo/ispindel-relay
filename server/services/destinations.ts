@@ -3,9 +3,7 @@ import {IDestination, IHttpDestination, IInfluxDBDestination} from 'types'
 let _destinations = [
   {
     type: 'HTTP',
-    host: 'example.com',
-    port: '80',
-    path: '/api',
+    url: 'http://httpbin.org/anything',
     token: '',
   } as IHttpDestination,
   {
