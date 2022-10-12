@@ -1,0 +1,6 @@
+services:
+  ispindel-relay:
+    image: agentgonzo/ispindel-relay
+    ports:
+      - '3000:3000'
+    build: {}

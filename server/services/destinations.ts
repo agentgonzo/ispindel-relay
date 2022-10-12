@@ -22,7 +22,7 @@ let _destinations = [] as IDestination[]
 try {
   _destinations = JSON.parse(fs.readFileSync(configFileName) as any)
 } catch {
-  console.warn(`Could not load services definiton from ${configFileName}`)
+  console.log(`Could not load services definition from ${configFileName}`)
 }
 
 export const getDestinations = (): IDestination[] => {
