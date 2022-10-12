@@ -12,7 +12,6 @@ export interface ISpindelDataWithTimestamp extends ISpindelData {
   lastUpdate: number, // milli-seconds since epoch
 }
 
-// TODO move API objects over to a common package
 export enum ServiceType {
   HTTP = 'HTTP',
   InfluxDB = 'InfluxDB',

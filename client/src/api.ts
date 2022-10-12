@@ -26,15 +26,6 @@ export const useTestService = async (service: IService) => {
 
 ////////////////////////////
 // Data
-export interface ISpindelData {
-  gravity: number,
-  temperature: number, // °C // TODO. Support the yanks
-  battery: number, // Volts
-  angle: number, // °
-  period: number, // seconds?
-  lastUpdate: number, // milli-seconds since epoch
-}
-
 export const useData = () => {
   const [loading, setLoading] = useState(true)
   const [responseData, setResponseData] = useState(null)
