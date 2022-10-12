@@ -14,6 +14,7 @@ function DataPage() {
         : <CurrentData
           gravity={data.gravity}
           temperature={data.temperature}
+          temp_units={data.temp_units}
           battery={data.battery}
           angle={data.angle}
           lastUpdate={data.lastUpdate}

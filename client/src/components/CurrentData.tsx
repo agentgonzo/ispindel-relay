@@ -1,19 +1,20 @@
 import * as React from "react";
 import {FC, ReactElement} from "react";
-import {Col, Form, Row} from 'react-bootstrap'
+import {Col, Form, OverlayTrigger, Row, Tooltip} from 'react-bootstrap'
 import * as moment from 'moment'
 import {useServices} from '../api'
 
 export interface IFermentationData {
   gravity: number
   temperature: number
+  temp_units: string
   battery: number // volts
   lastUpdate: number
   angle: number
   period: number
 }
 
-export const CurrentData: FC<IFermentationData> = ({gravity, temperature, battery, lastUpdate, angle, period}): ReactElement => {
+export const CurrentData: FC<IFermentationData> = ({gravity, temperature, temp_units, battery, lastUpdate, angle, period}): ReactElement => {
   const services = useServices()
 
   const originalGravity = 1.055 // TODO. Get this from the data
@@ -23,14 +24,14 @@ export const CurrentData: FC<IFermentationData> = ({gravity, temperature, batter
   const batteryString = `${calculateBatteryPercentage(battery).toFixed(0)}% (${battery}V)`
 
   const servicesWithError = services?.filter(s => s.error).length
-  const servicesErrorText = servicesWithError && ` (${servicesWithError} failing)`
+  const servicesErrorText = servicesWithError ? ` (${servicesWithError} failing)` : ''
 
   return <>
     <Form>
       <Form.Group as={Row} className="mb-3">
         <Form.Label column>Temperature</Form.Label>
         <Col sm="10">
-          <Form.Control disabled value={temperature + '°C'}/>
+          <Form.Control disabled value={`${temperature}°${temp_units}`}/>
         </Col>
       </Form.Group>
 
@@ -53,7 +54,10 @@ export const CurrentData: FC<IFermentationData> = ({gravity, temperature, batter
 
     <Form>
       <Form.Group as={Row} className="mb-3">
-        <Form.Label column>Original gravity</Form.Label>
+        <OverlayTrigger placement="top" overlay={OverlayToolTip}>
+          <Form.Label column>Original gravity</Form.Label>
+        </OverlayTrigger>
+
         <Col sm="10">
           <Form.Control disabled value={originalGravity}/>
         </Col>
@@ -92,12 +96,16 @@ export const CurrentData: FC<IFermentationData> = ({gravity, temperature, batter
     </Form>
 
     {services?.length && <div>
-      {/*<div className="circle"/>*/}
       <p>Sending to {services.length} services{servicesErrorText}.</p>
     </div>}
     <p>Last Updated: <i>{moment(lastUpdate).fromNow()}</i></p>
   </>
 }
+
+const OverlayToolTip = (props: any) => (
+  <Tooltip {...props}>Original gravity is estimated from your iSpindel. If there is no data received from the iSpindel for 24 hours, it is assumed that a new fermentation has
+    begun. The first data received is assumed to be the original gravity. You can reset this value here if you need to.</Tooltip>
+)
 
 const calculateAttenuation = (og: number, fg: number) => {
   return 100 - ((fg - 1) / (og - 1)) * 100

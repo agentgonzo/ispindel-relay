@@ -9,6 +9,7 @@ dataRouter.get('/', (req: Request, res: Response) => {
   res.send({
     gravity: 1.032,
     temperature: 20.5,
+    temp_units: 'C',
     battery: 4.07,
     angle: 47,
     period: 1800,
