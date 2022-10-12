@@ -13,6 +13,7 @@ function DataPage() {
         ? <NoData/>
         : <CurrentData
           gravity={data.gravity}
+          originalGravity={data.gravity}
           temperature={data.temperature}
           temp_units={data.temp_units}
           battery={data.battery}

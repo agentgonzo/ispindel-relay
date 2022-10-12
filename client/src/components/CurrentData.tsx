@@ -6,6 +6,7 @@ import {useServices} from '../api'
 
 export interface IFermentationData {
   gravity: number
+  originalGravity: number
   temperature: number
   temp_units: string
   battery: number // volts
@@ -14,10 +15,9 @@ export interface IFermentationData {
   period: number
 }
 
-export const CurrentData: FC<IFermentationData> = ({gravity, temperature, temp_units, battery, lastUpdate, angle, period}): ReactElement => {
+export const CurrentData: FC<IFermentationData> = ({gravity, originalGravity, temperature, temp_units, battery, lastUpdate, angle, period}): ReactElement => {
   const services = useServices()
 
-  const originalGravity = 1.055 // TODO. Get this from the data
   const attenuation = calculateAttenuation(originalGravity, gravity)
   const abv = (originalGravity - gravity) * 131.25
   // Battery 'normal' ranges are 3.0 - 4.1V

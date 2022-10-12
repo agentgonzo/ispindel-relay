@@ -9,6 +9,7 @@ export interface ISpindelData {
 }
 
 export interface ISpindelDataWithTimestamp extends ISpindelData {
+  originalGravity: number,
   lastUpdate: number, // milli-seconds since epoch
 }
 
