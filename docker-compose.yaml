@@ -1,6 +1,11 @@
 services:
   ispindel-relay:
-    image: agentgonzo/ispindel-relay
+    image: ghcr.io/agentgonzo/ispindel-relay:main
     ports:
       - '3000:3000'
+    volumes:
+      - ispindel:/root
     build: {}
+
+volumes:
+  ispindel:
