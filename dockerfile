@@ -2,7 +2,8 @@ FROM node:16-alpine as builder
 
 # Build types
 COPY types types
-RUN yarn --cwd types add build
+RUN yarn --cwd types install
+RUN yarn --cwd types build
 
 
 ######### Build the client
