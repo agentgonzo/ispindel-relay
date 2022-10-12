@@ -34,7 +34,7 @@ export const ServicesConfiguration: FC<{ initialServices: IService[] }> = ({init
     })
   }
 
-  const destination = (service: any) => (service.host || service.hostname || service.token)
+  const destination = (service: any) => (service.url || service.hostname || service.token)
 
   return (
     <>
