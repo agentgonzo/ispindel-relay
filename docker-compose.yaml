@@ -1,6 +1,6 @@
 services:
   ispindel-relay:
-    image: ghcr.io/agentgonzo/ispindel-relay:main
+    image: agentgonzo/ispindel-relay
     ports:
       - '3000:3000'
     volumes:
