@@ -1,8 +1,8 @@
 import * as React from "react";
-import {FC, ReactElement} from "react";
-import {Col, Form, OverlayTrigger, Row, Tooltip} from 'react-bootstrap'
+import {FC, ReactElement, useState} from "react";
+import {Button, Col, Form, InputGroup, OverlayTrigger, Row, Tooltip} from 'react-bootstrap'
 import * as moment from 'moment'
-import {useServices} from '../api'
+import {resetOriginalGravity, useServices} from '../api'
 
 export interface IFermentationData {
   gravity: number
@@ -18,13 +18,20 @@ export interface IFermentationData {
 export const CurrentData: FC<IFermentationData> = ({gravity, originalGravity, temperature, temp_units, battery, lastUpdate, angle, period}): ReactElement => {
   const services = useServices()
 
-  const attenuation = calculateAttenuation(originalGravity, gravity)
-  const abv = (originalGravity - gravity) * 131.25
+  const [og, setOg] = useState(originalGravity)
+  const attenuation = calculateAttenuation(og, gravity)
+  const abv = (og - gravity) * 131.25
   // Battery 'normal' ranges are 3.0 - 4.1V
   const batteryString = `${calculateBatteryPercentage(battery).toFixed(0)}% (${battery}V)`
 
   const servicesWithError = services?.filter(s => s.error).length
   const servicesErrorText = servicesWithError ? ` (${servicesWithError} failing)` : ''
+
+  const changeOriginalGravity = async () => {
+    const og = (document.getElementById('originalGravity') as HTMLInputElement).valueAsNumber
+    setOg(og)
+    await resetOriginalGravity(og)
+  }
 
   return <>
     <Form>
@@ -54,12 +61,15 @@ export const CurrentData: FC<IFermentationData> = ({gravity, originalGravity, te
 
     <Form>
       <Form.Group as={Row} className="mb-3">
-        <OverlayTrigger placement="top" overlay={OverlayToolTip}>
-          <Form.Label column>Original gravity</Form.Label>
-        </OverlayTrigger>
+        <Form.Label column>Original gravity</Form.Label>
 
         <Col sm="10">
-          <Form.Control disabled value={originalGravity}/>
+          <InputGroup>
+            <OverlayTrigger placement="bottom" overlay={OverlayToolTip}>
+              <Form.Control id="originalGravity" type="number" step="0.001" defaultValue={og}/>
+            </OverlayTrigger>
+            <Button onClick={changeOriginalGravity}>Update</Button>
+          </InputGroup>
         </Col>
       </Form.Group>
 
@@ -103,8 +113,12 @@ export const CurrentData: FC<IFermentationData> = ({gravity, originalGravity, te
 }
 
 const OverlayToolTip = (props: any) => (
-  <Tooltip {...props}>Original gravity is estimated from your iSpindel. If there is no data received from the iSpindel for 24 hours, it is assumed that a new fermentation has
-    begun. The first data received is assumed to be the original gravity. You can reset this value here if you need to.</Tooltip>
+  <Tooltip {...props}>
+    <p>Original gravity is estimated from your iSpindel.</p>
+    <p>If there is no data received from the iSpindel for 24 hours, it is assumed that a new fermentation has
+      begun. The first data received is assumed to be the original gravity.</p>
+    <p>You can reset this value here if you need to.</p>
+  </Tooltip>
 )
 
 const calculateAttenuation = (og: number, fg: number) => {

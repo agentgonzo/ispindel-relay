@@ -57,3 +57,7 @@ export const useData = () => {
 
   return {loading, data: responseData}
 }
+
+export const resetOriginalGravity = async (originalGravity: number) => {
+  return await axios.put('/api/data/og', {originalGravity})
+}

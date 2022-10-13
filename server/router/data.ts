@@ -20,14 +20,25 @@ dataRouter.post('/', (req: Request, res: Response) => {
   res.sendStatus(204)
 })
 
-// Probably move this to a separate serivce as we grow
+/**
+ * Allow the FE to reset the OG
+ */
+dataRouter.put('/og', (req: Request, res: Response) => {
+  const og = req.body.originalGravity
+  console.log(`resetting OG to ${og}`)
+  originalGravity = og
+  lastData.originalGravity = og
+  res.sendStatus(204)
+})
+
+// Probably move this to a separate service as we grow
 const handleData = (data: ISpindelData) => {
   console.log(`received iSpindel data: ${JSON.stringify(data, null, 2)}`)
 
   // If the data received just now is more than 24 hours after the last received data, then assume a new
   // fermentation has begun and reset the OG
   if (!lastData?.lastUpdate || Date.now() - lastData?.lastUpdate > 24 * 60 * 60 * 1000) {
-    console.debug(`Data last reveiced on ${lastData?.lastUpdate} - setting OG to ${data.gravity}`)
+    console.log(`Data last received on ${lastData?.lastUpdate} - setting OG to ${data.gravity}`)
     originalGravity = data.gravity
   }
 
