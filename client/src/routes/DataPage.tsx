@@ -19,7 +19,7 @@ function DataPage() {
           battery={data.battery}
           angle={data.angle}
           lastUpdate={data.lastUpdate}
-          period={data.period}
+          interval={data.interval}
         />}
     </header>
   );

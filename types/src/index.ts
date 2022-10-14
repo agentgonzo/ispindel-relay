@@ -1,11 +1,13 @@
 export interface ISpindelData {
-  name: string // TODO: probably unused
+  name: string
+  ID: string
   gravity: number,
   temperature: number,
   temp_units: string,
   battery: number, // Volts
   angle: number, // °
-  period: number, // seconds
+  interval: number, // seconds
+  RSSI: number // signal strength (dB)
 }
 
 export interface ISpindelDataWithTimestamp extends ISpindelData {

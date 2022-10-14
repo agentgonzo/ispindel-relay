@@ -48,9 +48,10 @@ export const TestServiceModal: FC<IProps> = ({service, show, handleClose}): Reac
       <ul>
         <li>Specific Gravity: <code>1.050</code></li>
         <li>Temperature: <code>25</code></li>
+        <li>Temperature Units: <code>C</code></li>
         <li>Battery: <code>3.5</code></li>
         <li>Tilt angle: <code>45</code></li>
-        <li>Period: <code>1800</code></li>
+        <li>Interval: <code>1800</code></li>
       </ul>
       {done && (error ? failure : success)}
     </Modal.Body>

@@ -5,11 +5,13 @@ POST http://localhost:3000/api/data
 Content-Type: application/json
 
 {
-  "name": "iSpindel01",
+  "name": "iSpindel",
+  "ID": 6404895,
   "gravity": 1.050,
   "temperature": 25,
   "temp_units": "C",
   "battery": 3.5,
   "angle": 45,
-  "period": 1800
+  "interval": 1800,
+  "RSSI": -76
 }

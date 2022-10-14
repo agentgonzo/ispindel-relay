@@ -23,6 +23,9 @@ export const sendToInfluxDB = async (destination: IInfluxDBDestination, data: IS
         interval: data.period,
         battery: data.battery,
         RSSI: -80,
+      },
+      tags: {
+        source: data.name,
       }
     }
   ])

@@ -12,10 +12,10 @@ export interface IFermentationData {
   battery: number // volts
   lastUpdate: number
   angle: number
-  period: number
+  interval: number
 }
 
-export const CurrentData: FC<IFermentationData> = ({gravity, originalGravity, temperature, temp_units, battery, lastUpdate, angle, period}): ReactElement => {
+export const CurrentData: FC<IFermentationData> = ({gravity, originalGravity, temperature, temp_units, battery, lastUpdate, angle, interval}): ReactElement => {
   const services = useServices()
 
   const [og, setOg] = useState(originalGravity)
@@ -98,9 +98,9 @@ export const CurrentData: FC<IFermentationData> = ({gravity, originalGravity, te
         </Col>
       </Form.Group>
       <Form.Group as={Row} className="mb-3">
-        <Form.Label column>Update Period</Form.Label>
+        <Form.Label column>Update Interval</Form.Label>
         <Col sm="10">
-          <Form.Control disabled value={moment.duration({seconds: period}).humanize()}/>
+          <Form.Control disabled value={moment.duration({seconds: interval}).humanize()}/>
         </Col>
       </Form.Group>
     </Form>
