@@ -12,10 +12,11 @@ export interface IFermentationData {
   battery: number // volts
   lastUpdate: number
   angle: number
+  rssi: number
   interval: number
 }
 
-export const CurrentData: FC<IFermentationData> = ({gravity, originalGravity, temperature, temp_units, battery, lastUpdate, angle, interval}): ReactElement => {
+export const CurrentData: FC<IFermentationData> = ({gravity, originalGravity, temperature, temp_units, battery, lastUpdate, angle, rssi, interval}): ReactElement => {
   const services = useServices()
 
   const [og, setOg] = useState(originalGravity)
@@ -95,6 +96,12 @@ export const CurrentData: FC<IFermentationData> = ({gravity, originalGravity, te
         <Form.Label column>Tilt angle</Form.Label>
         <Col sm="10">
           <Form.Control disabled value={angle + '°'}/>
+        </Col>
+      </Form.Group>
+      <Form.Group as={Row} className="mb-3">
+        <Form.Label column>WiFi Signal Strength</Form.Label>
+        <Col sm="10">
+          <Form.Control disabled value={rssi + ' dB'}/>
         </Col>
       </Form.Group>
       <Form.Group as={Row} className="mb-3">
