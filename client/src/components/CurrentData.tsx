@@ -24,7 +24,7 @@ export const CurrentData: FC<IFermentationData> = ({name, gravity, originalGravi
   const attenuation = calculateAttenuation(og, gravity)
   const abv = (og - gravity) * 131.25
   // Battery 'normal' ranges are 3.0 - 4.1V
-  const batteryString = `${calculateBatteryPercentage(battery).toFixed(0)}% (${battery}V)`
+  const batteryString = `${calculateBatteryPercentage(battery).toFixed(0)}% (${battery.toFixed(2)}V)`
 
   const servicesWithError = services?.filter(s => s.error).length
   const servicesErrorText = servicesWithError ? ` (${servicesWithError} failing)` : ''
@@ -49,14 +49,14 @@ export const CurrentData: FC<IFermentationData> = ({name, gravity, originalGravi
       <Form.Group as={Row} className="mb-3">
         <Form.Label column>Temperature</Form.Label>
         <Col sm="10">
-          <Form.Control disabled value={`${temperature}°${temp_units}`}/>
+          <Form.Control disabled value={`${temperature.toFixed(1)}°${temp_units}`}/>
         </Col>
       </Form.Group>
 
       <Form.Group as={Row} className="mb-3">
         <Form.Label column>Specific gravity</Form.Label>
         <Col sm="10">
-          <Form.Control disabled value={gravity}/>
+          <Form.Control disabled value={gravity.toFixed(4)}/>
         </Col>
       </Form.Group>
 
@@ -77,7 +77,7 @@ export const CurrentData: FC<IFermentationData> = ({name, gravity, originalGravi
         <Col sm="10">
           <InputGroup>
             <OverlayTrigger placement="bottom" overlay={OverlayToolTip}>
-              <Form.Control id="originalGravity" type="number" step="0.001" defaultValue={og}/>
+              <Form.Control id="originalGravity" type="number" step="0.001" defaultValue={og.toFixed(4)}/>
             </OverlayTrigger>
             <Button onClick={changeOriginalGravity}>Update</Button>
           </InputGroup>
@@ -105,7 +105,7 @@ export const CurrentData: FC<IFermentationData> = ({name, gravity, originalGravi
       <Form.Group as={Row} className="mb-3">
         <Form.Label column>Tilt angle</Form.Label>
         <Col sm="10">
-          <Form.Control disabled value={angle + '°'}/>
+          <Form.Control disabled value={angle.toFixed(1) + '°'}/>
         </Col>
       </Form.Group>
       <Form.Group as={Row} className="mb-3">
