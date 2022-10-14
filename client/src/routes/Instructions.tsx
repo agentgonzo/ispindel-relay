@@ -21,7 +21,7 @@ export const InstructionsPage: FC = (): ReactElement => {
       Use the following configuration parameters:</p>
     <ul>
       <li>Service Type: <code>HTTP</code></li>
-      <li>Token: <code>TODO: HARDCODED</code></li>
+      <li>Token: <i>Leave blank</i></li>
       <li>Server Address: <code>{getServerAddress()}</code></li>
       <li>Server Port: <code>{window.location.port}</code></li>
       <li>Server URL: <code>/api/data</code></li>
