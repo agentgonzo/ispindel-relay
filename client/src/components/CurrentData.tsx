@@ -5,6 +5,7 @@ import * as moment from 'moment'
 import {resetOriginalGravity, useServices} from '../api'
 
 export interface IFermentationData {
+  name: string
   gravity: number
   originalGravity: number
   temperature: number
@@ -16,7 +17,7 @@ export interface IFermentationData {
   interval: number
 }
 
-export const CurrentData: FC<IFermentationData> = ({gravity, originalGravity, temperature, temp_units, battery, lastUpdate, angle, rssi, interval}): ReactElement => {
+export const CurrentData: FC<IFermentationData> = ({name, gravity, originalGravity, temperature, temp_units, battery, lastUpdate, angle, rssi, interval}): ReactElement => {
   const services = useServices()
 
   const [og, setOg] = useState(originalGravity)
@@ -36,6 +37,15 @@ export const CurrentData: FC<IFermentationData> = ({gravity, originalGravity, te
 
   return <>
     <Form>
+      <Form.Group as={Row} className="mb-3">
+        <Form.Label column>Name</Form.Label>
+        <Col sm="10">
+          <Form.Control disabled value={name}/>
+        </Col>
+      </Form.Group>
+
+      <hr/>
+
       <Form.Group as={Row} className="mb-3">
         <Form.Label column>Temperature</Form.Label>
         <Col sm="10">
