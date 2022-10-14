@@ -7,7 +7,6 @@
     "add-types:server": "yarn --cwd server add -D ../types",
     "build": "yarn build:types; yarn add-types",
     "build:types": "yarn --cwd types build",
-    "dev": "concurrently \"PORT=3001 yarn --cwd server dev\" \"yarn --cwd client start\"",
     "start": "concurrently \"PORT=3001 yarn --cwd server start\" \"yarn --cwd client start\""
   },
   "devDependencies": {

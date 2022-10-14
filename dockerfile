@@ -45,6 +45,4 @@ COPY --from=builder server/node_modules node_modules
 COPY --from=builder client/build dist/build
 
 EXPOSE 3000
-#CMD [ "concurrently", "serve -s client/dist/index.js", "PORT=3001 node server/dist/index.js" ]
 CMD [ "node", "dist/index.js" ]
-#CMD [ "serve", "-s", "client/build" ]
