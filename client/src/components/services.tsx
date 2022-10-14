@@ -9,7 +9,7 @@ import {capitalise} from '../utils'
 export enum ServiceType {
   HTTP = 'HTTP',
   InfluxDB = 'InfluxDB',
-  Ubidots = 'Ubidots',
+  // Ubidots = 'Ubidots',
 }
 
 export interface IService extends Object {
@@ -159,9 +159,9 @@ const FormsForService: FC<IFormsForServiceProps> = ({service, onChange}) => {
       username: {required: false},
       password: {required: false},
     },
-    [ServiceType.Ubidots]: {
-      token: {required: true}
-    },
+    // [ServiceType.Ubidots]: {
+    //   token: {required: true}
+    // },
   }
 
   const fields = fieldsForType[service.type]
