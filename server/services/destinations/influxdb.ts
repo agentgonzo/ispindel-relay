@@ -20,9 +20,9 @@ export const sendToInfluxDB = async (destination: IInfluxDBDestination, data: IS
         temp_units: data.temp_units,
         tilt: data.angle,
         gravity: data.gravity,
-        interval: data.period,
+        interval: data.interval,
         battery: data.battery,
-        RSSI: -80,
+        RSSI: data.RSSI,
       },
       tags: {
         source: data.name,
