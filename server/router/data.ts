@@ -1,6 +1,7 @@
 import {Request, Response, Router} from 'express'
 import {forwardToDestinations} from '../services/destinations/forwarder'
 import {ISpindelData, ISpindelDataWithTimestamp} from 'types'
+import {logger} from '../util/logging'
 
 export const dataRouter = Router()
 
@@ -13,8 +14,6 @@ dataRouter.get('/', (req: Request, res: Response) => {
 })
 
 dataRouter.post('/', (req: Request, res: Response) => {
-  console.log(`headers: ${JSON.stringify(req.headers)}`)
-
   handleData(req.body as ISpindelData)
 
   res.sendStatus(204)
@@ -25,7 +24,7 @@ dataRouter.post('/', (req: Request, res: Response) => {
  */
 dataRouter.put('/og', (req: Request, res: Response) => {
   const og = req.body.originalGravity
-  console.log(`resetting OG to ${og}`)
+  logger.info(`resetting OG to ${og}`)
   originalGravity = og
   lastData.originalGravity = og
   res.sendStatus(204)
@@ -33,12 +32,13 @@ dataRouter.put('/og', (req: Request, res: Response) => {
 
 // Probably move this to a separate service as we grow
 const handleData = (data: ISpindelData) => {
-  console.log(`received iSpindel data: ${JSON.stringify(data, null, 2)}`)
+  logger.info('received data from iSpindel')
+  logger.debug(`data: ${JSON.stringify(data, null, 2)}`)
 
   // If the data received just now is more than 24 hours after the last received data, then assume a new
   // fermentation has begun and reset the OG
   if (!lastData?.lastUpdate || Date.now() - lastData?.lastUpdate > 24 * 60 * 60 * 1000) {
-    console.log(`Data last received on ${lastData?.lastUpdate} - setting OG to ${data.gravity}`)
+    logger.info(`Data last received on ${lastData?.lastUpdate} - setting OG to ${data.gravity}`)
     originalGravity = data.gravity
   }
 

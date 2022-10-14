@@ -2,6 +2,7 @@ import express, {Express, NextFunction, Request, Response} from 'express';
 import {dataRouter} from './router/data'
 import {servicesRouter} from './router/services'
 import {frontendRouter} from './router/frontend'
+import {logger} from './util/logging'
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
@@ -16,5 +17,5 @@ app.use((err: Error, req: Request, res: Response, _: NextFunction) => {
 })
 
 app.listen(port, () => {
-  console.log(`[server]: Server is running at https://localhost:${port}`);
-});
+  logger.info(`Server is running at https://localhost:${port}`);
+})

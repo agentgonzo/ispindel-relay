@@ -2,6 +2,7 @@ import {IDestination} from 'types'
 import * as fs from 'fs'
 import * as os from 'os'
 import path from 'path'
+import {logger} from '../util/logging'
 
 const configFileName = path.join(os.homedir(), 'services.json')
 
@@ -24,7 +25,7 @@ let _destinations = [] as IDestination[]
 try {
   _destinations = JSON.parse(fs.readFileSync(configFileName) as any)
 } catch {
-  console.log(`Could not load services definition from ${configFileName}`)
+  logger.error(`Could not load services definition from ${configFileName}`)
 }
 
 export const getDestinations = (): IDestination[] => {
