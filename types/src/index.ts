@@ -1,6 +1,6 @@
 export interface ISpindelData {
   name: string
-  ID: string
+  ID: number
   gravity: number,
   temperature: number,
   temp_units: string,
