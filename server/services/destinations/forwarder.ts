@@ -1,7 +1,7 @@
 import {getDestinations} from '../destinations'
 import {sendHttp} from './http'
 import {sendToInfluxDB} from './influxdb'
-import {IHttpDestination, IInfluxDBDestination, ISpindelData, ISpindelDataWithTimestamp, ServiceType} from 'types'
+import {IHttpDestination, IInfluxDBDestination, ISpindelData, ServiceType} from 'types'
 
 export const forwardToDestinations = async (data: ISpindelData) => {
   const destinations = getDestinations()
