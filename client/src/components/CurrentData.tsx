@@ -23,7 +23,7 @@ export const CurrentData: FC<IFermentationData> = ({name, gravity, originalGravi
   const [og, setOg] = useState(originalGravity)
   const attenuation = calculateAttenuation(og, gravity)
   const abv = (og - gravity) * 131.25
-  // Battery 'normal' ranges are 3.0 - 4.1V
+  // Battery 'normal' ranges are 3.0 - 4.21V
   const batteryString = `${calculateBatteryPercentage(battery).toFixed(0)}% (${battery.toFixed(2)}V)`
 
   const servicesWithError = services?.filter(s => s.error).length
@@ -143,7 +143,7 @@ const calculateAttenuation = (og: number, fg: number) => {
 }
 
 const calculateBatteryPercentage = (voltage: number) => {
-  const high = 4.1
+  const high = 4.21
   const low = 3.0
   const range = high - low
   return (voltage - low) / range * 100
