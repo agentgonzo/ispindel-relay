@@ -1,8 +1,9 @@
 import {getDestinations} from '../destinations'
 import {sendHttp} from './http'
 import {sendToInfluxDB} from './influxdb'
-import {IHttpDestination, IInfluxDBDestination, ISpindelData, ServiceType} from 'types'
+import {IHomeAssistantDestination, IHttpDestination, IInfluxDBDestination, ISpindelData, ServiceType} from 'types'
 import {logger} from '../../util/logging'
+import {sendToHomeAssistant} from './home_assistant'
 
 export const forwardToDestinations = async (data: ISpindelData) => {
   const destinations = getDestinations()
@@ -15,6 +16,9 @@ export const forwardToDestinations = async (data: ISpindelData) => {
         case ServiceType.InfluxDB:
           await sendToInfluxDB(destination as IInfluxDBDestination, data)
           break;
+        case ServiceType.HomeAssistant:
+          await sendToHomeAssistant(destination as IHomeAssistantDestination, data)
+          break
         default:
           logger.error(`Unknown destination type: ${destination.type} - skipping`)
       }

@@ -18,6 +18,7 @@ export interface ISpindelDataWithTimestamp extends ISpindelData {
 export enum ServiceType {
   HTTP = 'HTTP',
   InfluxDB = 'InfluxDB',
+  HomeAssistant = 'HomeAssistant',
   Ubidots = 'Ubidots',
 }
 
@@ -39,6 +40,11 @@ export interface IInfluxDBDestination extends IDestination {
 }
 
 export interface IHttpDestination extends IDestination {
+  url: string
+  token?: string
+}
+
+export interface IHomeAssistantDestination extends IDestination {
   url: string
   token?: string
 }

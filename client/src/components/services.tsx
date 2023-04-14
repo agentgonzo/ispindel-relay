@@ -9,6 +9,7 @@ import {capitalise} from '../utils'
 export enum ServiceType {
   HTTP = 'HTTP',
   InfluxDB = 'InfluxDB',
+  HomeAssistant = 'HomeAssistant',
   // Ubidots = 'Ubidots',
 }
 
@@ -158,6 +159,10 @@ const FormsForService: FC<IFormsForServiceProps> = ({service, onChange}) => {
       database: {required: true},
       username: {required: false},
       password: {required: false},
+    },
+    [ServiceType.HomeAssistant]: {
+      url: {required: true},
+      token: {required: false},
     },
     // [ServiceType.Ubidots]: {
     //   token: {required: true}
