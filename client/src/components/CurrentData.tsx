@@ -35,6 +35,13 @@ export const CurrentData: FC<IFermentationData> = ({name, gravity, originalGravi
     await resetOriginalGravity(og)
   }
 
+  const resetOriginalGravityToCurrentGravity = async () => {
+    (document.getElementById('originalGravity') as HTMLInputElement).value =
+      (document.getElementById('currentGravity') as HTMLInputElement).valueAsNumber.toFixed(4)
+
+    await changeOriginalGravity()
+  }
+
   return <>
     <Form>
       <Form.Group as={Row} className="mb-3">
@@ -56,7 +63,7 @@ export const CurrentData: FC<IFermentationData> = ({name, gravity, originalGravi
       <Form.Group as={Row} className="mb-3">
         <Form.Label column>Specific gravity</Form.Label>
         <Col sm="10">
-          <Form.Control disabled value={gravity.toFixed(4)}/>
+          <Form.Control id="currentGravity" type="number" disabled value={gravity.toFixed(4)}/>
         </Col>
       </Form.Group>
 
@@ -79,7 +86,12 @@ export const CurrentData: FC<IFermentationData> = ({name, gravity, originalGravi
             <OverlayTrigger placement="bottom" overlay={OverlayToolTip}>
               <Form.Control id="originalGravity" type="number" step="0.001" defaultValue={og.toFixed(4)}/>
             </OverlayTrigger>
-            <Button onClick={changeOriginalGravity}>Update</Button>
+            <OverlayTrigger placement="bottom" overlay={<Tooltip>Reset the OG to the current gravity</Tooltip>}>
+              <Button variant="outline-primary" onClick={resetOriginalGravityToCurrentGravity}>Reset</Button>
+            </OverlayTrigger>
+            <OverlayTrigger placement="bottom" overlay={<Tooltip>Set the OG to the specified value</Tooltip>}>
+              <Button onClick={changeOriginalGravity}>Update</Button>
+            </OverlayTrigger>
           </InputGroup>
         </Col>
       </Form.Group>
